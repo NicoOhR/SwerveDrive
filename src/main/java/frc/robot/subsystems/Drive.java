@@ -12,10 +12,10 @@ import frc.robot.WheelDrive;
 public class Drive extends SubsystemBase {
   Joystick joystick = new Joystick(0);
   //Create wheelDrives and assign to ports 
-  static WheelDrive frontLeftWheel = new WheelDrive(1, 2);
-  static WheelDrive frontRightWheel = new WheelDrive(3, 4);
-  static WheelDrive backLeftWheel = new WheelDrive(5, 6);
-  static WheelDrive backRightWheel = new WheelDrive(7, 8);
+  static WheelDrive frontLeftWheel = new WheelDrive(1, 2, 1.0);
+  static WheelDrive frontRightWheel = new WheelDrive(3, 4, 1.0);
+  static WheelDrive backLeftWheel = new WheelDrive(5, 6, 1.0);
+  static WheelDrive backRightWheel = new WheelDrive(7, 8, 1.0);
 
   public static SwerveDrive swerve = new SwerveDrive(frontRightWheel, frontLeftWheel, backLeftWheel, backRightWheel);
 
