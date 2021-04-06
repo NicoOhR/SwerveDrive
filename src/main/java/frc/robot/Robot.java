@@ -17,13 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  */
 public class Robot extends TimedRobot {
 
-  Joystick joystick = new Joystick(0);  
-  WheelDrive backRight = new WheelDrive(10,1);//ang port, spd port; encoder handeled by sparkmax
-  WheelDrive frontLeft = new WheelDrive(2,3);
-  WheelDrive backLeft = new WheelDrive(4,5);
-  WheelDrive frontRight = new WheelDrive(6,7);
-  //whatever the ports are will be added later
-  SwerveDrive swervedrive =   new SwerveDrive(backRight,backLeft,frontRight,frontLeft);
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
@@ -54,7 +47,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
   @Override
   public void teleopPeriodic() {  
-    swervedrive.drive(joystick.getRawAxis(0), joystick.getRawAxis(1), joystick.getRawAxis(4));
   }
   /** This function is called once when the robot is disabled. */
   @Override
