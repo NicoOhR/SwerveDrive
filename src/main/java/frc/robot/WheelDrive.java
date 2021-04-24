@@ -1,35 +1,57 @@
 package frc.robot;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANEncoder;
-//import edu.wpi.first.wpilibj.PIDController;
 
 
 
 public class WheelDrive {
-    public double angleMultiplier = 88.5;
+    public double angleMultiplier = 88.5;         
     private CANSparkMax angleMotor;
     private CANSparkMax speedMotor;
-    private CANEncoder m_encoder;
+    private CANEncoder AngleEncoder;
+    private CANEncoder SpeedEncoder;
     private CANPIDController pidController;
-    public WheelDrive(int angleMotor, int speedMotor){
-        this.angleMotor = new CANSparkMax(angleMotor, MotorType.kBrushless);
-        this.speedMotor = new CANSparkMax(speedMotor, MotorType.kBrushless);
-
+    public WheelDrive(int angleMotorPort, int speedMotorPort, double P){
+        this.angleMotor = new CANSparkMax(angleMotorPort, MotorType.kBrushless);
+        this.speedMotor = new CANSparkMax(speedMotorPort, MotorType.kBrushless);
+        AngleEncoder = angleMotor.getEncoder();
+        //AngleEncoder.setPositionConversionFactor(360/88.5);
+        SpeedEncoder = speedMotor.getEncoder();
+        angleMotor.getPIDController().setP(P);
+        angleMotor.setSmartCurrentLimit(20);
+        //speedMotor.setSmartCurrentLimit(20);
+        AngleEncoder.getPosition();
+        AngleEncoder.setPosition(0);
+        SpeedEncoder.setPosition(0);
+    }
+    public double getAngle(){
+        AngleEncoder.setPositionConversionFactor(360.0); 
+        double AnglePosition = AngleEncoder.getPosition();
+        return ((AnglePosition%360)-180);
     }
 	public double angleMultiplier(double desiredAngle){
-        System.out.println("ticks: "+ desiredAngle * (angleMultiplier) + "angle: "+ desiredAngle);
-        //desiredAngle raw is -1 to 1, by adding 1, it is 1 to 2, and /2 makes it 0 to 1
-        //0 to 1 makes the math accurate for setReference   
-        return (((desiredAngle + 1)/2) * (angleMultiplier));
+        /*if (desiredAngle < 0) {
+            desiredAngle = (360 - (desiredAngle * -1));
+        }
+        else if (desiredAngle >360) {
+            desiredAngle = desiredAngle -360;       
+        } 
+        */  
+        return ((desiredAngle/360)*(1321621/15000));
     }
 
     public void DriveWheel (double speed, double angle){
-
-        speedMotor.set(speed/2);  
-        angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);
+        if(speed > 0.3){
+        angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
+        speedMotor.set(speed/2);     
+        }
+        else{
+            angleMotor.getPIDController().setReference(0,ControlType.kPosition);
+            speedMotor.set(0);
+        }
     }
    
 }
