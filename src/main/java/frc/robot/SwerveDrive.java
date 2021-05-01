@@ -16,15 +16,12 @@ public class SwerveDrive {
         this.backRight =  backRight;
         this.backLeft = backLeft;
         this.frontRight = frontRight;
-        this.frontLeft = frontLeft;
-    
+        this.frontLeft = frontLeft;    
     } 
-    /*
-    public static double ClosestAngle(double current,double ideal){
-        double direction = current % 360
-    }
-    */
         public void drive(double forward,double strafe, double azimuth){
+        if(azimuth < 0.4 && azimuth > -0.4){
+            azimuth = 0;    
+        }
         double r = Math.sqrt ((L * L) + (W * W));
         //azimuth *= -1;       
         //forward *= -1;
@@ -70,37 +67,15 @@ public class SwerveDrive {
         SmartDashboard.putNumber("Front Left speed", frontLeftSpeed);
 
         double backRightAngle = (Math.atan2(a,d)*(180/Math.PI));
-        //System.out.println(Math.atan2(a, d));
         double backLeftAngle = (Math.atan2(a,c)*(180/Math.PI));
         double frontLeftAngle = Math.atan2(b,d)*(180/Math.PI);
         double frontRightAngle = Math.atan2(b,c)*(180/Math.PI);
-        //bad idea, still here for keepsake
-        //double backRightAngle = (Math.atan2(a,d)*(180/Math.PI)) - Math.atan2(a,c)*(180/Math.PI) ;
-        //double backLeftAngle = Math.atan2(a,c)*(180/Math.PI) - Math.atan2(a,d)*(180/Math.PI);
-        //double frontRightAngle = Math.atan2(b,d)*(180/Math.PI) - Math.atan2(b,c)*(180/Math.PI);
-        //double frontLeftAngle = Math.atan2(b,c)*(180/Math.PI) - Math.atan2(b,d)*(180/Math.PI) ;
+        
         SmartDashboard.putNumber("back Right Angle", backRightAngle);
         SmartDashboard.putNumber("front Right Angle", frontRightAngle);
         SmartDashboard.putNumber("back Left Angle", backLeftAngle);
         SmartDashboard.putNumber("front Left Angle",frontLeftAngle);
-        
-        /*
-        if(forward < 1 && forward > -1){
-            backRight.DriveWheel(0,backRightAngle);    
-            backLeft.DriveWheel(0,backLeftAngle);
-            frontRight.DriveWheel(0,frontRightAngle);
-            frontLeft.DriveWheel(0,frontLeftAngle);
-        }
-        if(strafe < 1  && strafe > -1){
-        backRight.DriveWheel(backRightSpeed,0); 
-        backLeft.DriveWheel(backLeftSpeed, 0);
-        frontRight.DriveWheel(frontRightSpeed,0);
-        frontLeft.DriveWheel(frontLeftSpeed,0);
-        }
-        if(azimuth < 1 && azimuth > -1){
-            azimuth = 0;
-        }
-*/
+
         backRight.DriveWheel(backRightSpeed,backRightAngle); 
         backLeft.DriveWheel(backLeftSpeed, backLeftAngle);
         frontRight.DriveWheel(frontRightSpeed,frontRightAngle);//flipping angles for testing

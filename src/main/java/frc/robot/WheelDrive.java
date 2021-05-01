@@ -1,5 +1,4 @@
 package frc.robot;
-import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
@@ -13,7 +12,6 @@ public class WheelDrive {
     private CANSparkMax speedMotor;
     private CANEncoder AngleEncoder;
     private CANEncoder SpeedEncoder;
-    private CANPIDController pidController;
     public WheelDrive(int angleMotorPort, int speedMotorPort, double P){
         this.angleMotor = new CANSparkMax(angleMotorPort, MotorType.kBrushless);
         this.speedMotor = new CANSparkMax(speedMotorPort, MotorType.kBrushless);
@@ -28,25 +26,27 @@ public class WheelDrive {
         SpeedEncoder.setPosition(0);
     }
     public double getAngle(){
+        AngleEncoder = angleMotor.getEncoder();
         AngleEncoder.setPositionConversionFactor(360.0); 
         double AnglePosition = AngleEncoder.getPosition();
-        return ((AnglePosition%360)-180);
+        return AnglePosition-180;
+    }
+    public double ClosestAngle(double given, double ideal){
+        double dir = -given%180.0 + ideal%180.0;
+        if(Math.abs(dir) > 180.0){
+            dir = -(Math.signum(dir)*360) + dir;
+        }
+        return dir;
     }
 	public double angleMultiplier(double desiredAngle){
-        /*if (desiredAngle < 0) {
-            desiredAngle = (360 - (desiredAngle * -1));
-        }
-        else if (desiredAngle >360) {
-            desiredAngle = desiredAngle -360;       
-        } 
-        */  
         return ((desiredAngle/360)*(1321621/15000));
     }
 
     public void DriveWheel (double speed, double angle){
+        System.out.println(getAngle());
         if(speed > 0.3){
-        angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
-        speedMotor.set(speed/2);     
+            angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
+            speedMotor.set(speed);     
         }
         else{
             angleMotor.getPIDController().setReference(0,ControlType.kPosition);

@@ -6,10 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.*;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.Intake;
 import com.revrobotics.CANPIDController;
 import frc.robot.WheelDrive;
 
@@ -21,7 +22,8 @@ import frc.robot.WheelDrive;
  */
 public class Robot extends TimedRobot {
 
-  Joystick joystick = new Joystick(0); 
+  Joystick joystick = new Joystick(0);
+  Boolean armButton = joystick.getRawButton(1);
   //angle, speed
   /*
   WheelDrive frontRight = new WheelDrive(10 ,1, 1.0);
@@ -67,9 +69,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {  
     swervedrive.drive(joystick.getRawAxis(1),joystick.getRawAxis(0),-joystick.getRawAxis(4));
-    //swervedrive.drive(0,0,0); //returns 1 for desired angle
-    //swervedrive.drive(1,0,0); //returns 0 for desired angle: should return 1/4
-    //swervedrive.drive(1,1,0); // also returns 1 for desired angle
+    Intake.run(armButton);
   }
   /** This function is called once when the robot is disabled. */
   @Override
