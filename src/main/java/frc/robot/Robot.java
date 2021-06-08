@@ -30,13 +30,14 @@ public class Robot extends TimedRobot {
   WheelDrive frontLeft = new WheelDrive(2,3, 1.0);
   WheelDrive backLeft = new WheelDrive(4,5, 1.0);
   WheelDrive backRight = new WheelDrive(6,7, 1.0);
-  */
-  WheelDrive frontRight = new WheelDrive(10,1,1.0);//10,1
-  WheelDrive frontLeft = new WheelDrive(6,7,1.0);//6,7
-  WheelDrive backRight = new WheelDrive(2,3,1.0);//2,3
-  WheelDrive backLeft = new WheelDrive(4,5,1.0);//4,5
-  SwerveDrive swervedrive = new SwerveDrive(frontRight,frontLeft,backLeft,backRight);
 
+  */
+  WheelDrive frontRight = new WheelDrive(4,5,12.0);//10,1
+  WheelDrive frontLeft = new WheelDrive(2,3,12.0);//6,7
+  WheelDrive backRight = new WheelDrive(6,7,12.0);//2,3
+  WheelDrive backLeft = new WheelDrive(10,1,12.0);//4,5
+  SwerveDrive swervedrive = new SwerveDrive(frontRight,frontLeft,backLeft,backRight);
+  Intake Intake = new Intake(15, 14);
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -44,7 +45,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit(){}
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    
+    
+  }
   @Override
   public void autonomousInit(){
     m_autoSelected = m_chooser.getSelected();
@@ -69,7 +73,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {  
     swervedrive.drive(joystick.getRawAxis(1),joystick.getRawAxis(0),-joystick.getRawAxis(4));
-    Intake.run(armButton);
+    Intake.run(joystick.getRawButton(1),joystick.getRawButton(2));
+    Intake.armDrive(-joystick.getRawAxis(3)+joystick.getRawAxis(2));
+    System.out.println("FrontRight" + frontRight.printPosition());   
+    System.out.println("FrontLeft" + frontLeft.printPosition());
+    System.out.println("BackRight"+backRight.printPosition());
+    System.out.println("BackLeft"+backLeft.printPosition());
   }
   /** This function is called once when the robot is disabled. */
   @Override

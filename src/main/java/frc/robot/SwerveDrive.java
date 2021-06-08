@@ -6,8 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveDrive {
-    public static final double L = 30.0; //will put numbers later
-    public static final double W = 30.0;
+    public static final double L = 24.0; //will put numbers later
+    public static final double W = 32.0;
     private WheelDrive backRight;
     private WheelDrive backLeft;
     private WheelDrive frontRight;
@@ -23,8 +23,6 @@ public class SwerveDrive {
             azimuth = 0;    
         }
         double r = Math.sqrt ((L * L) + (W * W));
-        //azimuth *= -1;       
-        //forward *= -1;
         strafe *= -1;
         
         SmartDashboard.putNumber("strafe",strafe);       
@@ -36,7 +34,7 @@ public class SwerveDrive {
         double d = forward + azimuth * (W / r);
      
         /*
-         *                FRONT
+         *               FRONT
          * 
          *            c          d
          *            | 		 |
@@ -53,7 +51,7 @@ public class SwerveDrive {
          *                BACK
          */
         SmartDashboard.putNumber("a", a);       
-        SmartDashboard.putNumber("b",b);       
+        SmartDashboard.putNumber("b", b);       
         SmartDashboard.putNumber("c", c);
         SmartDashboard.putNumber("d", d);
 
@@ -78,7 +76,7 @@ public class SwerveDrive {
 
         backRight.DriveWheel(backRightSpeed,backRightAngle); 
         backLeft.DriveWheel(backLeftSpeed, backLeftAngle);
-        frontRight.DriveWheel(frontRightSpeed,frontRightAngle);//flipping angles for testing
+        frontRight.DriveWheel(frontRightSpeed,frontRightAngle);
         frontLeft.DriveWheel(frontLeftSpeed,frontLeftAngle);
     }
 }
