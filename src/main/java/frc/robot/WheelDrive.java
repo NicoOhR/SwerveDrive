@@ -7,7 +7,6 @@ import com.revrobotics.CANEncoder;
 
 
 public class WheelDrive {
-    public double angleMultiplier = 88.5;
     private CANSparkMax angleMotor;
     private CANSparkMax speedMotor;
     private CANEncoder AngleEncoder;
@@ -19,10 +18,9 @@ public class WheelDrive {
         //AngleEncoder.setPositionConversionFactor(360/88.5);
         SpeedEncoder = speedMotor.getEncoder();
         angleMotor.getPIDController().setP(P);
-        //System.out.println(angleMotor.getPIDController().getP());
         angleMotor.getPIDController().setSmartMotionAllowedClosedLoopError(2.0, 0);
         angleMotor.setSmartCurrentLimit(60);
-        //speedMotor.setSmartCurrentLimit(20);
+        speedMotor.setSmartCurrentLimit(40);
         AngleEncoder.setPosition(0);
         SpeedEncoder.setPosition(0);
     }
@@ -51,6 +49,10 @@ public class WheelDrive {
     }
 
     public void DriveWheel (double speed, double angle){
+
+        angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
+        speedMotor.set(speed);     
+        /*
         if(speed > 0.3){
             angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
             speedMotor.set(speed);     
@@ -59,6 +61,8 @@ public class WheelDrive {
             angleMotor.getPIDController().setReference(0,ControlType.kPosition);
             speedMotor.set(0);
         }
+        */
+
     }
    
 }

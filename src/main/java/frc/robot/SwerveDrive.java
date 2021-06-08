@@ -18,7 +18,7 @@ public class SwerveDrive {
         this.frontRight = frontRight;
         this.frontLeft = frontLeft;    
     } 
-        public void drive(double forward,double strafe, double azimuth){
+        public void drive(double forward, double strafe, double azimuth){
         if(azimuth < 0.4 && azimuth > -0.4){
             azimuth = 0;    
         }
@@ -55,17 +55,17 @@ public class SwerveDrive {
         SmartDashboard.putNumber("c", c);
         SmartDashboard.putNumber("d", d);
 
-        double backRightSpeed = Math.sqrt ((a * a) + (d * d));
-        double backLeftSpeed = Math.sqrt ((a * a) + (c * c));
-        double frontRightSpeed = Math.sqrt ((b * b) + (d * d));
-        double frontLeftSpeed = Math.sqrt ((b * b) + (c * c));
+        double backLeftSpeed = Math.sqrt ((a * a) + (d * d));
+        double backRightSpeed = Math.sqrt ((a * a) + (c * c));
+        double frontLeftSpeed = Math.sqrt ((b * b) + (d * d));
+        double frontRightSpeed = Math.sqrt ((b * b) + (c * c));
         SmartDashboard.putNumber("Back Right speed", backRightSpeed);
         SmartDashboard.putNumber("Front Right speed", backLeftSpeed);
         SmartDashboard.putNumber("Back Left speed",frontRightSpeed);
         SmartDashboard.putNumber("Front Left speed", frontLeftSpeed);
 
-        double backRightAngle = (Math.atan2(a,d)*(180/Math.PI));
-        double backLeftAngle = (Math.atan2(a,c)*(180/Math.PI));
+        double backRightAngle = (Math.atan2(a,c)*(180/Math.PI));
+        double backLeftAngle = (Math.atan2(a,d)*(180/Math.PI));
         double frontLeftAngle = Math.atan2(b,d)*(180/Math.PI);
         double frontRightAngle = Math.atan2(b,c)*(180/Math.PI);
         
