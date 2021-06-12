@@ -15,14 +15,14 @@ public class WheelDrive {
         this.angleMotor = new CANSparkMax(angleMotorPort, MotorType.kBrushless);
         this.speedMotor = new CANSparkMax(speedMotorPort, MotorType.kBrushless);
         AngleEncoder = angleMotor.getEncoder();
-        //AngleEncoder.setPositionConversionFactor(360/88.5);
         SpeedEncoder = speedMotor.getEncoder();
         angleMotor.getPIDController().setP(P);
         angleMotor.getPIDController().setSmartMotionAllowedClosedLoopError(2.0, 0);
-        angleMotor.setSmartCurrentLimit(60);
-        speedMotor.setSmartCurrentLimit(40);
+        angleMotor.setSmartCurrentLimit(20);
+        speedMotor.setSmartCurrentLimit(30);
         AngleEncoder.setPosition(0);
         SpeedEncoder.setPosition(0);
+        angleMotor.getPIDController().setOutputRange(-.5, .5);
     }
     public double printPosition(){
         return AngleEncoder.getPosition();
@@ -51,7 +51,7 @@ public class WheelDrive {
     public void DriveWheel (double speed, double angle){
 
         angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
-        speedMotor.set(speed);     
+        speedMotor.set(0.75*speed);     
         /*
         if(speed > 0.3){
             angleMotor.getPIDController().setReference(angleMultiplier(angle), ControlType.kPosition);    
